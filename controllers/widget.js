@@ -67,17 +67,19 @@ function loadContent(children, reset) {
 }
 
 function togglePanel(e) {
-	if (this.isActive) {
-		this.isActive = false;
-		panes[ this.paneIndex ].height = 0;
-		args.activeIndex = null;
-		
-		$.container.fireEvent('toggle', { visible: false, index: this.paneIndex });
+	var visible = !this.isActive,
+		index = this.paneIndex,
+		pane = panes[index];
+	
+	if (visible) {
+		pane.height = Ti.UI.SIZE;
+		args.activeIndex = index;
 	} else {
-		this.isActive = true;
-		panes[ this.paneIndex ].height = Ti.UI.SIZE;
-		args.activeIndex = this.paneIndex;
-		
-		$.container.fireEvent('toggle', { visible: true, index: this.paneIndex });
+		pane.height = 0;
+		args.activeIndex = null;
 	}
+	
+	this.isActive = visible;
+	
+	$.trigger('toggle', { visible: visible, index: index, view: pane });
 };
