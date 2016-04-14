@@ -58,7 +58,13 @@ function loadContent(children, reset) {
 				child.addEventListener('click', togglePanel);
 			} else if (child.role == 'body') {
 				panes.push(child);
-				child.height = index != args.activeIndex ? 0 : Ti.UI.SIZE;
+				if (index != args.activeIndex) {
+					child.height = 0;
+					child.visible = false;
+				} else {
+					child.height = Ti.UI.SIZE;
+					child.visible = true;
+				}
 			}
 			
 			$.container.add(child);
@@ -73,13 +79,15 @@ function togglePanel(e) {
 	
 	if (visible) {
 		pane.height = Ti.UI.SIZE;
+		pane.visible = true;
 		args.activeIndex = index;
 	} else {
 		pane.height = 0;
+		pane.visible = false;
 		args.activeIndex = null;
 	}
 	
 	this.isActive = visible;
 	
-	$.trigger('toggle', { visible: visible, index: index, view: pane });
+	$.trigger('toggle', { visible: visible, index: index, header: this, body: pane });
 };

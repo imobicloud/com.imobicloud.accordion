@@ -48,6 +48,7 @@ js
     function accordionToggle(e) {
 	  	// e.visible
 	  	// e.index
-	  	// e.view
+	  	// e.header
+	  	// e.body
 	}
 
